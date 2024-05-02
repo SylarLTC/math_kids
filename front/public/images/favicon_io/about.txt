@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Sevillana
+- Font Author: Copyright (c) 2011, Brownfox (gayaneh.b@gmail.com), with Reserved Font Names "Sevillana"
+- Font Source: https://fonts.gstatic.com/s/sevillana/v23/KFOlCnWFscmDt1Bfiy1vAx05IsDqlA.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
