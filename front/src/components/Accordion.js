@@ -26,7 +26,7 @@ export const Accordion = ({ items }) => {
               onClick={() => handleClick(index)}
             >
               <div>{item.label}</div>
-              <div className="">{`Solved: ${item.corrects} out of 15`}</div>
+              <div className="">{`Solved: ${item.corrects} out of ${item.totalAmountOfElements}`}</div>
               <span className={`text-xl`}>
                 {isExpanded ? <IoMdArrowDropdown /> : <IoMdArrowDropleft />}
               </span>

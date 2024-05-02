@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
+import { totalAmountOfSumElements } from "../db/db";
 
 export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const [answer, setAnswer] = useSessionStorage(`sum answer ${item.id}`, "");
@@ -7,10 +8,11 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
     `sum checkAnswer ${item.id}`,
     0
   );
+
   const equalBool = checkAnswer.toString() === answer;
 
   useEffect(() => {
-    if (equalBool) {
+    if (equalBool && totalCorrects.Sum < totalAmountOfSumElements) {
       setTotalCorrects({ ...totalCorrects, Sum: totalCorrects.Sum + 1 });
     } else {
       setTotalCorrects({ ...totalCorrects });

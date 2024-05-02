@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
+import { totalAmountOfDivisionElements } from "../db/db";
 
 export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const [answer, setAnswer] = useSessionStorage(
@@ -14,7 +15,7 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const equalBool = checkAnswer.toString() === answer;
 
   useEffect(() => {
-    if (equalBool) {
+    if (equalBool && totalCorrects.Division < totalAmountOfDivisionElements) {
       setTotalCorrects({
         ...totalCorrects,
         Division: totalCorrects.Division + 1,

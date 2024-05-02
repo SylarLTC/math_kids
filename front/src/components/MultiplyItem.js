@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
+import { totalAmountOfMultiplyElements } from "../db/db";
 
 export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const [answer, setAnswer] = useSessionStorage(
@@ -14,7 +15,7 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const equalBool = checkAnswer.toString() === answer;
 
   useEffect(() => {
-    if (equalBool) {
+    if (equalBool && totalCorrects.Multiply < totalAmountOfMultiplyElements) {
       setTotalCorrects({
         ...totalCorrects,
         Multiply: totalCorrects.Multiply + 1,

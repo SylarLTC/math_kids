@@ -108,6 +108,8 @@ export const dbRandomNumbersSum = [
   },
 ];
 
+export const totalAmountOfSumElements = dbRandomNumbersSum.length;
+
 export const dbRandomNumbersSubtract = [
   {
     id: "1",
@@ -185,6 +187,8 @@ export const dbRandomNumbersSubtract = [
     second: randomSecondNumberSubtract(),
   },
 ];
+
+export const totalAmountOfSubtractElements = dbRandomNumbersSubtract.length;
 
 export const dbRandomNumbersMultiply = [
   {
@@ -264,6 +268,8 @@ export const dbRandomNumbersMultiply = [
   },
 ];
 
+export const totalAmountOfMultiplyElements = dbRandomNumbersMultiply.length;
+
 export const dbRandomNumbersDivision = [
   {
     id: "1",
@@ -341,3 +347,5 @@ export const dbRandomNumbersDivision = [
     second: randomSecondNumberDivision(),
   },
 ];
+
+export const totalAmountOfDivisionElements = dbRandomNumbersDivision.length;

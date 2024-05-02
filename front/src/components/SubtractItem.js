@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
-import { Subtract } from "./Subtract";
+import { totalAmountOfSubtractElements } from "../db/db";
 
 export const SubtractItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const [answer, setAnswer] = useSessionStorage(
@@ -15,7 +15,7 @@ export const SubtractItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const equalBool = checkAnswer.toString() === answer;
 
   useEffect(() => {
-    if (equalBool) {
+    if (equalBool && totalCorrects.Subtract < totalAmountOfSubtractElements) {
       setTotalCorrects({
         ...totalCorrects,
         Subtract: totalCorrects.Subtract + 1,
