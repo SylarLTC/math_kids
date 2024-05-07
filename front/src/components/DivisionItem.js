@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfDivisionElements } from "../db/db";
 
@@ -11,40 +11,40 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
     `division checkAnswer ${item.id}`,
     0
   );
-
-  const equalBool = checkAnswer.toString() === answer;
+  const [equalityNumbers, setEqualityNumbers] = useState(false);
+  const [checkColorClass, setCheckColorClass] = useState("");
 
   useEffect(() => {
-    if (equalBool && totalCorrects.Division < totalAmountOfDivisionElements) {
+    if (item.first % item.second === 0) {
+      setCheckAnswer(item.first / item.second);
+    } else {
+      setCheckAnswer(
+        (item.first + (item.second - (item.first % item.second))) / item.second
+      );
+    }
+
+    if (
+      equalityNumbers === true &&
+      totalCorrects.Division < totalAmountOfDivisionElements
+    ) {
       setTotalCorrects({
         ...totalCorrects,
         Division: totalCorrects.Division + 1,
       });
-    } else {
-      setTotalCorrects({ ...totalCorrects });
     }
-  }, [equalBool]);
+  }, [item.first, item.second, setCheckAnswer, equalityNumbers]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (item.first % item.second === 0) {
-      setCheckAnswer((prev) => (prev = item.first / item.second));
+    if (answer !== checkAnswer.toString()) {
+      setEqualityNumbers(false);
+      setCheckColorClass("bg-rose-500");
     } else {
-      setCheckAnswer(
-        (prev) =>
-          (prev =
-            (item.first + (item.second - (item.first % item.second))) /
-            item.second)
-      );
+      setEqualityNumbers(true);
+      setCheckColorClass("bg-green-400");
     }
   };
-
-  const checkColorClass = !checkAnswer
-    ? ""
-    : checkAnswer.toString() === answer
-    ? "bg-green-400"
-    : "bg-rose-500";
 
   return (
     <div className={`border mb-2 w-[40%] ${checkColorClass}`}>
@@ -67,11 +67,11 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
           <button className="border p-2 rounded">Check the answer</button>
         </div>
       </form>
-      {!checkAnswer ? (
+      {!checkColorClass ? (
         ""
       ) : (
         <div className="m-5 font-semibold text-white">
-          {checkAnswer.toString() === answer ? "Correct" : "Incorrect"}
+          {equalityNumbers ? "Correct" : "Incorrect"}
         </div>
       )}
     </div>

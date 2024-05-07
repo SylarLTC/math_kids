@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfMultiplyElements } from "../db/db";
 
@@ -11,31 +11,34 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
     `multiply checkAnswer ${item.id}`,
     0
   );
-
-  const equalBool = checkAnswer.toString() === answer;
+  const [equalityNumbers, setEqualityNumbers] = useState(false);
+  const [checkColorClass, setCheckColorClass] = useState("");
 
   useEffect(() => {
-    if (equalBool && totalCorrects.Multiply < totalAmountOfMultiplyElements) {
+    setCheckAnswer(item.first * item.second);
+
+    if (
+      equalityNumbers === true &&
+      totalCorrects.Multiply < totalAmountOfMultiplyElements
+    ) {
       setTotalCorrects({
         ...totalCorrects,
         Multiply: totalCorrects.Multiply + 1,
       });
-    } else {
-      setTotalCorrects({ ...totalCorrects });
     }
-  }, [equalBool]);
+  }, [item.first, item.second, setCheckAnswer, equalityNumbers]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setCheckAnswer((prev) => (prev = item.first * item.second));
+    if (answer !== checkAnswer.toString()) {
+      setEqualityNumbers(false);
+      setCheckColorClass("bg-rose-500");
+    } else {
+      setEqualityNumbers(true);
+      setCheckColorClass("bg-green-400");
+    }
   };
-
-  const checkColorClass = !checkAnswer
-    ? ""
-    : checkAnswer.toString() === answer
-    ? "bg-green-400"
-    : "bg-rose-500";
 
   return (
     <div className={`border mb-2 w-[40%] ${checkColorClass}`}>
@@ -54,11 +57,11 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
           <button className="border p-2 rounded">Check the answer</button>
         </div>
       </form>
-      {!checkAnswer ? (
+      {!checkColorClass ? (
         ""
       ) : (
         <div className="m-5 font-semibold text-white">
-          {checkAnswer.toString() === answer ? "Correct" : "Incorrect"}
+          {equalityNumbers ? "Correct" : "Incorrect"}
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfSumElements } from "../db/db";
 
@@ -8,28 +8,44 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
     `sum checkAnswer ${item.id}`,
     0
   );
-
-  const equalBool = checkAnswer.toString() === answer;
+  const [equalityNumbers, setEqualityNumbers] = useSessionStorage(
+    `sum equalityNumbers ${item.id}`,
+    false
+  );
+  const [checkColorClass, setCheckColorClass] = useSessionStorage(
+    `sum checkColorClass ${item.id}`,
+    ""
+  );
 
   useEffect(() => {
-    if (equalBool && totalCorrects.Sum < totalAmountOfSumElements) {
-      setTotalCorrects({ ...totalCorrects, Sum: totalCorrects.Sum + 1 });
-    } else {
-      setTotalCorrects({ ...totalCorrects });
-    }
-  }, [equalBool]);
+    setCheckAnswer(item.first + item.second);
+
+    // if (
+    //   answer === checkAnswer.toString() &&
+    //   totalCorrects.Sum < totalAmountOfSumElements
+    // ) {
+    //   setTotalCorrects({
+    //     ...totalCorrects,
+    //     Sum: totalCorrects.Sum + 1,
+    //   });
+    // }
+  }, [item.first, item.second, setCheckAnswer]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setCheckAnswer((prev) => (prev = item.first + item.second));
+    if (answer !== checkAnswer.toString()) {
+      setEqualityNumbers(false);
+      setCheckColorClass("bg-rose-500");
+    } else {
+      setEqualityNumbers(true);
+      setCheckColorClass("bg-green-400");
+      setTotalCorrects({
+        ...totalCorrects,
+        Sum: totalCorrects.Sum + 1,
+      });
+    }
   };
-
-  const checkColorClass = !checkAnswer
-    ? ""
-    : checkAnswer.toString() === answer
-    ? "bg-green-400"
-    : "bg-rose-500";
 
   return (
     <div className={`border mb-2 w-[40%] ${checkColorClass}`}>
@@ -45,14 +61,16 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
-          <button className="border p-2 rounded">Check the answer</button>
+          <button disabled={equalityNumbers} className="border p-2 rounded">
+            Check the answer
+          </button>
         </div>
       </form>
-      {!checkAnswer ? (
+      {!checkColorClass ? (
         ""
       ) : (
         <div className="m-5 font-semibold text-white">
-          {checkAnswer.toString() === answer ? "Correct" : "Incorrect"}
+          {equalityNumbers ? "Correct" : "Incorrect"}
         </div>
       )}
     </div>

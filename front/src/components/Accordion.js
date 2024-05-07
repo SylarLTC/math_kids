@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { IoMdArrowDropdown, IoMdArrowDropleft } from "react-icons/io";
+import { IoMdArrowDropdown, IoMdArrowDropright } from "react-icons/io";
+import { TimeTable } from "./TimeTable";
 
 export const Accordion = ({ items }) => {
   const [expandedIndex, setExpandedIndex] = useState(-1);
@@ -20,16 +21,19 @@ export const Accordion = ({ items }) => {
         const isExpanded = index === expandedIndex;
 
         return (
-          <div className="m-5" key={item.id}>
+          <div className="m-5 relative" key={item.id}>
             <div
-              className="flex justify-between p-3 bg-gray-50 border-b items-center cursor-pointer"
+              className="flex p-3 bg-gray-50 border-b items-center cursor-pointer"
               onClick={() => handleClick(index)}
             >
-              <div>{item.label}</div>
-              <div className="">{`Solved: ${item.corrects} out of ${item.totalAmountOfElements}`}</div>
-              <span className={`text-xl`}>
-                {isExpanded ? <IoMdArrowDropdown /> : <IoMdArrowDropleft />}
+              <span className={`text-xl w-[3%]`}>
+                {isExpanded ? <IoMdArrowDropdown /> : <IoMdArrowDropright />}
               </span>
+              <div className="w-[20%]">{item.label}</div>
+              <div className="ml-[20%]">{`Solved: ${item.corrects} out of ${item.totalAmountOfElements}`}</div>
+            </div>
+            <div className="absolute top-0 right-48 py-3">
+              <TimeTable label={item.label} />
             </div>
             {isExpanded && <div className="border-b p-5">{item.content}</div>}
           </div>
