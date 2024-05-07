@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfSumElements } from "../db/db";
 
@@ -19,16 +19,6 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
 
   useEffect(() => {
     setCheckAnswer(item.first + item.second);
-
-    // if (
-    //   answer === checkAnswer.toString() &&
-    //   totalCorrects.Sum < totalAmountOfSumElements
-    // ) {
-    //   setTotalCorrects({
-    //     ...totalCorrects,
-    //     Sum: totalCorrects.Sum + 1,
-    //   });
-    // }
   }, [item.first, item.second, setCheckAnswer]);
 
   const handleSubmit = (e) => {
@@ -40,10 +30,12 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
     } else {
       setEqualityNumbers(true);
       setCheckColorClass("bg-green-400");
-      setTotalCorrects({
-        ...totalCorrects,
-        Sum: totalCorrects.Sum + 1,
-      });
+      if (totalCorrects.Sum < totalAmountOfSumElements) {
+        setTotalCorrects({
+          ...totalCorrects,
+          Sum: totalCorrects.Sum + 1,
+        });
+      }
     }
   };
 

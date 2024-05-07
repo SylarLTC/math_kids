@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfSubtractElements } from "../db/db";
 
@@ -11,8 +11,14 @@ export const SubtractItem = ({ item, totalCorrects, setTotalCorrects }) => {
     `subtract checkAnswer ${item.id}`,
     0
   );
-  const [equalityNumbers, setEqualityNumbers] = useState(false);
-  const [checkColorClass, setCheckColorClass] = useState("");
+  const [equalityNumbers, setEqualityNumbers] = useSessionStorage(
+    `subtract equalityNumbers ${item.id}`,
+    false
+  );
+  const [checkColorClass, setCheckColorClass] = useSessionStorage(
+    `subtract checkColorClass ${item.id}`,
+    ""
+  );
 
   useEffect(() => {
     if (item.first - item.second >= 0) {
@@ -20,17 +26,7 @@ export const SubtractItem = ({ item, totalCorrects, setTotalCorrects }) => {
     } else {
       setCheckAnswer(item.second - item.first);
     }
-
-    if (
-      equalityNumbers === true &&
-      totalCorrects.Subtract < totalAmountOfSubtractElements
-    ) {
-      setTotalCorrects({
-        ...totalCorrects,
-        Subtract: totalCorrects.Subtract + 1,
-      });
-    }
-  }, [item.first, item.second, setCheckAnswer, equalityNumbers]);
+  }, [item.first, item.second, setCheckAnswer]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,6 +37,12 @@ export const SubtractItem = ({ item, totalCorrects, setTotalCorrects }) => {
     } else {
       setEqualityNumbers(true);
       setCheckColorClass("bg-green-400");
+      if (totalCorrects.Subtract < totalAmountOfSubtractElements) {
+        setTotalCorrects({
+          ...totalCorrects,
+          Subtract: totalCorrects.Subtract + 1,
+        });
+      }
     }
   };
 
@@ -60,7 +62,9 @@ export const SubtractItem = ({ item, totalCorrects, setTotalCorrects }) => {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
-          <button className="border p-2 rounded">Check the answer</button>
+          <button disabled={equalityNumbers} className="border p-2 rounded">
+            Check the answer
+          </button>
         </div>
       </form>
       {!checkColorClass ? (

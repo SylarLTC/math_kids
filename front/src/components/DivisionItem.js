@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfDivisionElements } from "../db/db";
 
@@ -11,8 +11,14 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
     `division checkAnswer ${item.id}`,
     0
   );
-  const [equalityNumbers, setEqualityNumbers] = useState(false);
-  const [checkColorClass, setCheckColorClass] = useState("");
+  const [equalityNumbers, setEqualityNumbers] = useSessionStorage(
+    `division equalityNumbers ${item.id}`,
+    false
+  );
+  const [checkColorClass, setCheckColorClass] = useSessionStorage(
+    `division checkColorClass ${item.id}`,
+    ""
+  );
 
   useEffect(() => {
     if (item.first % item.second === 0) {
@@ -22,17 +28,7 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
         (item.first + (item.second - (item.first % item.second))) / item.second
       );
     }
-
-    if (
-      equalityNumbers === true &&
-      totalCorrects.Division < totalAmountOfDivisionElements
-    ) {
-      setTotalCorrects({
-        ...totalCorrects,
-        Division: totalCorrects.Division + 1,
-      });
-    }
-  }, [item.first, item.second, setCheckAnswer, equalityNumbers]);
+  }, [item.first, item.second, setCheckAnswer]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,6 +39,12 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
     } else {
       setEqualityNumbers(true);
       setCheckColorClass("bg-green-400");
+      if (totalCorrects.Division < totalAmountOfDivisionElements) {
+        setTotalCorrects({
+          ...totalCorrects,
+          Division: totalCorrects.Division + 1,
+        });
+      }
     }
   };
 
@@ -64,7 +66,9 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
-          <button className="border p-2 rounded">Check the answer</button>
+          <button disabled={equalityNumbers} className="border p-2 rounded">
+            Check the answer
+          </button>
         </div>
       </form>
       {!checkColorClass ? (

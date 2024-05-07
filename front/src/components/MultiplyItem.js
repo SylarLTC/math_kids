@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfMultiplyElements } from "../db/db";
 
@@ -11,22 +11,18 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
     `multiply checkAnswer ${item.id}`,
     0
   );
-  const [equalityNumbers, setEqualityNumbers] = useState(false);
-  const [checkColorClass, setCheckColorClass] = useState("");
+  const [equalityNumbers, setEqualityNumbers] = useSessionStorage(
+    `multiply equalityNumbers ${item.id}`,
+    false
+  );
+  const [checkColorClass, setCheckColorClass] = useSessionStorage(
+    `multiply checkColorClass ${item.id}`,
+    ""
+  );
 
   useEffect(() => {
     setCheckAnswer(item.first * item.second);
-
-    if (
-      equalityNumbers === true &&
-      totalCorrects.Multiply < totalAmountOfMultiplyElements
-    ) {
-      setTotalCorrects({
-        ...totalCorrects,
-        Multiply: totalCorrects.Multiply + 1,
-      });
-    }
-  }, [item.first, item.second, setCheckAnswer, equalityNumbers]);
+  }, [item.first, item.second, setCheckAnswer]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,6 +33,12 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
     } else {
       setEqualityNumbers(true);
       setCheckColorClass("bg-green-400");
+      if (totalCorrects.Multiply < totalAmountOfMultiplyElements) {
+        setTotalCorrects({
+          ...totalCorrects,
+          Multiply: totalCorrects.Multiply + 1,
+        });
+      }
     }
   };
 
@@ -54,7 +56,9 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
-          <button className="border p-2 rounded">Check the answer</button>
+          <button disabled={equalityNumbers} className="border p-2 rounded">
+            Check the answer
+          </button>
         </div>
       </form>
       {!checkColorClass ? (
