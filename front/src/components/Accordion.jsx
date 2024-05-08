@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropright } from "react-icons/io";
 import { TimeTable } from "./TimeTable";
 
-export const Accordion = ({ items }) => {
+export const Accordion = ({ items, timeTable, setTimeTable }) => {
   const [expandedIndex, setExpandedIndex] = useState(-1);
 
   const handleClick = (nextIndex) => {
@@ -33,7 +33,11 @@ export const Accordion = ({ items }) => {
               <div className="ml-[20%]">{`Solved: ${item.corrects} out of ${item.totalAmountOfElements}`}</div>
             </div>
             <div className="absolute top-0 right-48 py-3">
-              <TimeTable label={item.label} />
+              <TimeTable
+                label={item.label}
+                timeTable={timeTable}
+                setTimeTable={setTimeTable}
+              />
             </div>
             {isExpanded && <div className="border-b p-5">{item.content}</div>}
           </div>

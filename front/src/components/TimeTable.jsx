@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const TimeTable = ({ label }) => {
+export const TimeTable = ({ label, timeTable, setTimeTable }) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
   const timer = useRef(null);
 
+  const convertedHours = hours < 10 ? `0${hours}` : hours;
+  const convertedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const convertedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
   useEffect(() => {
-    if (seconds >= 59) {
+    if (seconds >= 60) {
       setSeconds(0);
       setMinutes((prev) => prev + 1);
       if (minutes >= 59) {
@@ -25,18 +29,20 @@ export const TimeTable = ({ label }) => {
     setIsClicked(true);
   };
 
-  const handleClickStop = () => {
+  const handleClickStopAndTimeSubmit = () => {
     clearInterval(timer.current);
     setIsClicked(false);
-    console.log(label);
+    setTimeTable({
+      ...timeTable,
+      [label]: `${convertedHours}:${convertedMinutes}:${convertedSeconds}`,
+    });
   };
 
   return (
     <div className="flex gap-4">
       <div className="flex">
-        <div>{hours < 10 ? `0${hours}` : hours}</div>:
-        <div>{minutes < 10 ? `0${minutes}` : minutes}</div>:
-        <div>{seconds < 10 ? `0${seconds}` : seconds}</div>
+        <div>{convertedHours}</div>:<div>{convertedMinutes}</div>:
+        <div>{convertedSeconds}</div>
       </div>
       <button
         disabled={isClicked}
@@ -47,7 +53,10 @@ export const TimeTable = ({ label }) => {
       >
         START
       </button>
-      <button onClick={handleClickStop} className="hover:text-slate-500">
+      <button
+        onClick={handleClickStopAndTimeSubmit}
+        className="hover:text-slate-500"
+      >
         STOP
       </button>
     </div>
