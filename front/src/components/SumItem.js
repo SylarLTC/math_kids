@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfSumElements } from "../db/db";
+import { countSolvedProblemsAndSetColorClass } from "../utils/countSolvedProblemsAndSetColorClass";
 
 export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const [answer, setAnswer] = useSessionStorage(`sum answer ${item.id}`, "");
@@ -24,19 +25,16 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (answer !== checkAnswer.toString()) {
-      setEqualityNumbers(false);
-      setCheckColorClass("bg-rose-500");
-    } else {
-      setEqualityNumbers(true);
-      setCheckColorClass("bg-green-400");
-      if (totalCorrects.Sum < totalAmountOfSumElements) {
-        setTotalCorrects({
-          ...totalCorrects,
-          Sum: totalCorrects.Sum + 1,
-        });
-      }
-    }
+    countSolvedProblemsAndSetColorClass(
+      setTotalCorrects,
+      totalCorrects,
+      "Sum",
+      totalAmountOfSumElements,
+      answer,
+      checkAnswer,
+      setEqualityNumbers,
+      setCheckColorClass
+    );
   };
 
   return (

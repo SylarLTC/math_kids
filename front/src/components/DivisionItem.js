@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfDivisionElements } from "../db/db";
+import { countSolvedProblemsAndSetColorClass } from "../utils/countSolvedProblemsAndSetColorClass";
 
 export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const [answer, setAnswer] = useSessionStorage(
@@ -33,19 +34,16 @@ export const DivisionItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (answer !== checkAnswer.toString()) {
-      setEqualityNumbers(false);
-      setCheckColorClass("bg-rose-500");
-    } else {
-      setEqualityNumbers(true);
-      setCheckColorClass("bg-green-400");
-      if (totalCorrects.Division < totalAmountOfDivisionElements) {
-        setTotalCorrects({
-          ...totalCorrects,
-          Division: totalCorrects.Division + 1,
-        });
-      }
-    }
+    countSolvedProblemsAndSetColorClass(
+      setTotalCorrects,
+      totalCorrects,
+      "Division",
+      totalAmountOfDivisionElements,
+      answer,
+      checkAnswer,
+      setEqualityNumbers,
+      setCheckColorClass
+    );
   };
 
   return (

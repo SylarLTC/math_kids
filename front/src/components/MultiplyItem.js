@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSessionStorage } from "../hooks/useSessionStorage";
 import { totalAmountOfMultiplyElements } from "../db/db";
+import { countSolvedProblemsAndSetColorClass } from "../utils/countSolvedProblemsAndSetColorClass";
 
 export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const [answer, setAnswer] = useSessionStorage(
@@ -27,19 +28,16 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (answer !== checkAnswer.toString()) {
-      setEqualityNumbers(false);
-      setCheckColorClass("bg-rose-500");
-    } else {
-      setEqualityNumbers(true);
-      setCheckColorClass("bg-green-400");
-      if (totalCorrects.Multiply < totalAmountOfMultiplyElements) {
-        setTotalCorrects({
-          ...totalCorrects,
-          Multiply: totalCorrects.Multiply + 1,
-        });
-      }
-    }
+    countSolvedProblemsAndSetColorClass(
+      setTotalCorrects,
+      totalCorrects,
+      "Multiply",
+      totalAmountOfMultiplyElements,
+      answer,
+      checkAnswer,
+      setEqualityNumbers,
+      setCheckColorClass
+    );
   };
 
   return (
