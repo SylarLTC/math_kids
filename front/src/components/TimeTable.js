@@ -28,6 +28,7 @@ export const TimeTable = ({ label }) => {
   const handleClickStop = () => {
     clearInterval(timer.current);
     setIsClicked(false);
+    console.log(label);
   };
 
   return (

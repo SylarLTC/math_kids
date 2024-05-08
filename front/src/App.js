@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "./App.css";
 import { Accordion } from "./components/Accordion";
 import { Division } from "./components/Division";
@@ -70,6 +71,23 @@ function App() {
       totalAmountOfElements: totalAmountOfDivisionElements,
     },
   ];
+
+  const handleClick = async () => {
+    try {
+      const res = await axios.post("http://localhost:8800/math_results", {
+        Addition: "00:02:00",
+        Subtraction: "00:03:00",
+        Multiplication: "00:04:00",
+        Division: "00:05:00",
+        total_math_result: "00:14:00",
+      });
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col p-3">
       <nav className="flex justify-center">
@@ -77,6 +95,8 @@ function App() {
       </nav>
 
       <Accordion items={items} totalCorrects={totalCorrects} />
+
+      <button onClick={handleClick}>Submit time results</button>
     </div>
   );
 }
