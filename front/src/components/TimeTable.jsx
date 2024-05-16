@@ -39,7 +39,7 @@ export const TimeTable = ({ label, timeTable, setTimeTable }) => {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-wrap gap-4">
       <div className="flex">
         <div>{convertedHours}</div>:<div>{convertedMinutes}</div>:
         <div>{convertedSeconds}</div>

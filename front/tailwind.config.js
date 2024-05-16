@@ -5,12 +5,12 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        "arrow-turn": "arrow-turn 1s linear",
+        progressBar: "progressBar 4s linear forwards",
       },
       keyframes: {
-        "arrow-turn": {
-          "0%": { transform: "rotate(0)" },
-          "100%": { transform: "rotate(-90deg)" },
+        progressBar: {
+          "0%": { width: "100%" },
+          "100%": { width: "0%" },
         },
       },
     },
