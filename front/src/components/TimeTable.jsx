@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTimeTable } from "../hooks/useTimeTable";
 
-export const TimeTable = ({ label, timeTable, setTimeTable }) => {
+export const TimeTable = ({ label }) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
   const timer = useRef(null);
+  const { timeTable, setTimeTable } = useTimeTable();
 
   const convertedHours = hours < 10 ? `0${hours}` : hours;
   const convertedMinutes = minutes < 10 ? `0${minutes}` : minutes;
@@ -22,14 +24,16 @@ export const TimeTable = ({ label, timeTable, setTimeTable }) => {
     }
   }, [seconds, minutes, hours, setHours, setMinutes, setSeconds]);
 
-  const handleClickStart = () => {
+  const handleClickStart = (e) => {
+    e.stopPropagation();
     timer.current = setInterval(() => {
       setSeconds((prev) => prev + 1);
     }, 1000);
     setIsClicked(true);
   };
 
-  const handleClickStopAndTimeSubmit = () => {
+  const handleClickStopAndTimeSubmit = (e) => {
+    e.stopPropagation();
     clearInterval(timer.current);
     setIsClicked(false);
     setTimeTable({
@@ -39,7 +43,7 @@ export const TimeTable = ({ label, timeTable, setTimeTable }) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 h-full">
       <div className="flex">
         <div>{convertedHours}</div>:<div>{convertedMinutes}</div>:
         <div>{convertedSeconds}</div>

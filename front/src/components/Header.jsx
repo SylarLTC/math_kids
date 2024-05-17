@@ -5,55 +5,15 @@ import { FaCircleQuestion } from "react-icons/fa6";
 import { axiosRequest } from "../utils/axiosConfig";
 import { useToast } from "../hooks/useToast";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useTimeTable } from "../hooks/useTimeTable";
+import { useTotalCorrectsContext } from "../hooks/useTotalCorrects";
 
-export const Header = ({ totalCorrects, timeTable }) => {
+export const Header = () => {
   const [hidden, setHidden] = useState(true);
   const toast = useToast();
   const { currentUser, logout } = useAuthContext();
-
-  const sumTimeTableSeconds =
-    parseInt(timeTable.Addition.split(":")[2]) +
-    parseInt(timeTable.Subtraction.split(":")[2]) +
-    parseInt(timeTable.Multiplication.split(":")[2]) +
-    parseInt(timeTable.Division.split(":")[2]);
-
-  const sumTimeTableMinutes =
-    parseInt(timeTable.Addition.split(":")[1]) +
-    parseInt(timeTable.Subtraction.split(":")[1]) +
-    parseInt(timeTable.Multiplication.split(":")[1]) +
-    parseInt(timeTable.Division.split(":")[1]);
-
-  const sumTimeTableHours =
-    parseInt(timeTable.Addition.split(":")[0]) +
-    parseInt(timeTable.Subtraction.split(":")[0]) +
-    parseInt(timeTable.Multiplication.split(":")[0]) +
-    parseInt(timeTable.Division.split(":")[0]);
-
-  const sumMinutesAndSeconds =
-    sumTimeTableMinutes + Math.floor(sumTimeTableSeconds / 60);
-
-  const convertedSumTimeTableSeconds =
-    sumTimeTableSeconds > 59
-      ? sumTimeTableSeconds % 60
-      : sumTimeTableSeconds < 10
-      ? `0${sumTimeTableSeconds}`
-      : sumTimeTableSeconds;
-
-  const convertedSumTimeTableMinutes =
-    sumMinutesAndSeconds > 59
-      ? sumMinutesAndSeconds % 60
-      : sumMinutesAndSeconds < 10
-      ? `0${sumMinutesAndSeconds}`
-      : sumMinutesAndSeconds;
-
-  const convertedSumTimeTableHours =
-    sumTimeTableHours + Math.floor(sumMinutesAndSeconds / 60);
-
-  const totalTimeTable = `${
-    convertedSumTimeTableHours < 10
-      ? `0${convertedSumTimeTableHours}`
-      : convertedSumTimeTableHours
-  }:${convertedSumTimeTableMinutes}:${convertedSumTimeTableSeconds}`;
+  const { timeTable, totalTimeTable } = useTimeTable();
+  const { totalCorrects } = useTotalCorrectsContext();
 
   const totalCorrectsNumber =
     totalCorrects.Sum +
@@ -61,7 +21,7 @@ export const Header = ({ totalCorrects, timeTable }) => {
     totalCorrects.Multiply +
     totalCorrects.Division;
 
-  const handleClickSubmitResults = async () => {
+  const handleClickSubmitResults = async (e) => {
     try {
       await axiosRequest.post("/math/math_results", {
         Addition: timeTable.Addition,

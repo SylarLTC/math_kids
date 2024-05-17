@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropright } from "react-icons/io";
 import { TimeTable } from "./TimeTable";
 
-export const Accordion = ({ items, timeTable, setTimeTable }) => {
+export const Accordion = ({ items }) => {
   const [expandedIndex, setExpandedIndex] = useState(-1);
 
   const handleClick = (nextIndex) => {
@@ -35,11 +35,7 @@ export const Accordion = ({ items, timeTable, setTimeTable }) => {
 
               <div className="flex flex-wrap w-1/4">{`Solved: ${item.corrects} out of ${item.totalAmountOfElements}`}</div>
               <div className="flex flex-wrap w-1/4">
-                <TimeTable
-                  label={item.label}
-                  timeTable={timeTable}
-                  setTimeTable={setTimeTable}
-                />
+                <TimeTable label={item.label} />
               </div>
             </div>
 

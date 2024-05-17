@@ -9,21 +9,8 @@ import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { History } from "./pages/History";
-import { useState } from "react";
 
 function App() {
-  const [totalCorrects, setTotalCorrects] = useState({
-    Sum: 0,
-    Subtract: 0,
-    Multiply: 0,
-    Division: 0,
-  });
-  const [timeTable, setTimeTable] = useState({
-    Addition: "00:00:00",
-    Subtraction: "00:00:00",
-    Multiplication: "00:00:00",
-    Division: "00:00:00",
-  });
   const { currentUser } = useAuthContext();
 
   const ProtectedRoute = ({ children }) => {
@@ -39,19 +26,18 @@ function App() {
       path: "/",
       element: (
         <ProtectedRoute>
-          <Home
-            totalCorrects={totalCorrects}
-            setTotalCorrects={setTotalCorrects}
-            timeTable={timeTable}
-            setTimeTable={setTimeTable}
-          />
+          <Home />
         </ProtectedRoute>
       ),
       errorElement: <ErrorPage />,
     },
     {
       path: "/history",
-      element: <History totalCorrects={totalCorrects} timeTable={timeTable} />,
+      element: (
+        <ProtectedRoute>
+          <History />
+        </ProtectedRoute>
+      ),
       errorElement: <ErrorPage />,
     },
     {

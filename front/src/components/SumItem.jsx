@@ -35,6 +35,11 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
       setEqualityNumbers,
       setCheckColorClass
     );
+
+    console.log("answer:", answer);
+    console.log("checkAnswer:", checkAnswer.toString());
+    console.log(answer === checkAnswer.toString());
+    console.log("equalityNumbers:", equalityNumbers);
   };
 
   return (

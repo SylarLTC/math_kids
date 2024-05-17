@@ -5,14 +5,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ToastContextProvider } from "./contexts/ToastContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import { TimeTableContextProvider } from "./contexts/TimeTableContext";
+import { TotalCorrectsContextProvider } from "./contexts/TotalCorects";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <ToastContextProvider>
-        <App />
-      </ToastContextProvider>
+      <TotalCorrectsContextProvider>
+        <TimeTableContextProvider>
+          <ToastContextProvider>
+            <App />
+          </ToastContextProvider>
+        </TimeTableContextProvider>
+      </TotalCorrectsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );
