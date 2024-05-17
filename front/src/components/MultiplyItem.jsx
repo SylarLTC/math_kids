@@ -42,9 +42,12 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
 
   return (
     <div className={`border mb-2 w-[40%] ${checkColorClass}`}>
-      <form className="flex flex-col gap-1 mx-10 my-5" onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col flex-wrap gap-1 mx-10 my-5"
+        onSubmit={handleSubmit}
+      >
         <div className="font-semibold">Exercise {item.id}:</div>
-        <div className="flex flex-row">
+        <div className="flex flex-row flex-wrap">
           <div className="mr-2 p-2">
             {item.first} * {item.second} =
           </div>

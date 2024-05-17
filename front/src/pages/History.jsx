@@ -4,6 +4,7 @@ import { Header } from "../components/Header";
 
 export const History = ({ totalCorrects, timeTable }) => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     try {
@@ -11,6 +12,7 @@ export const History = ({ totalCorrects, timeTable }) => {
         const res = await axiosRequest.get("/math/math_results");
 
         setData(res.data);
+        setIsLoading(false);
       };
       fetchData();
     } catch (error) {
@@ -38,30 +40,34 @@ export const History = ({ totalCorrects, timeTable }) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((data, index) => {
-              return (
-                <tr className="" key={data.math_results_id}>
-                  <td className="border border-slate-300 text-center">
-                    {data.Addition}
-                  </td>
-                  <td className="border border-slate-300 text-center">
-                    {data.Subtraction}
-                  </td>
-                  <td className="border border-slate-300 text-center">
-                    {data.Multiplication}
-                  </td>
-                  <td className="border border-slate-300 text-center">
-                    {data.Division}
-                  </td>
-                  <td className="border border-slate-300 text-center font-bold">
-                    {data.total_math_result}
-                  </td>
-                  <td className="border border-slate-300 text-center">
-                    {data.created_at.slice(0, 10)}
-                  </td>
-                </tr>
-              );
-            })}
+            {isLoading ? (
+              <div className="loader"></div>
+            ) : (
+              data.map((data) => {
+                return (
+                  <tr className="" key={data.math_results_id}>
+                    <td className="border border-slate-300 text-center">
+                      {data.Addition}
+                    </td>
+                    <td className="border border-slate-300 text-center">
+                      {data.Subtraction}
+                    </td>
+                    <td className="border border-slate-300 text-center">
+                      {data.Multiplication}
+                    </td>
+                    <td className="border border-slate-300 text-center">
+                      {data.Division}
+                    </td>
+                    <td className="border border-slate-300 text-center font-bold">
+                      {data.total_math_result}
+                    </td>
+                    <td className="border border-slate-300 text-center">
+                      {data.created_at.slice(0, 10)}
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>

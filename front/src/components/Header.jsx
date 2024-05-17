@@ -73,7 +73,7 @@ export const Header = () => {
             className={` ${
               totalCorrectsNumber < 60
                 ? "text-slate-500 border-slate-500"
-                : "text-green-500 border-green-500"
+                : "text-green-500 border-green-500 animate-bounce"
             } ${totalCorrectsNumber < 60 ? "" : "hover:text-green-600"}`}
             disabled={totalCorrectsNumber < 60}
             onClick={handleClickSubmitResults}
