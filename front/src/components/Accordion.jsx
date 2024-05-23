@@ -16,7 +16,7 @@ export const Accordion = ({ items }) => {
   };
 
   return (
-    <div className="border rounded mt-3">
+    <div className="border rounded">
       {items.map((item, index) => {
         const isExpanded = index === expandedIndex;
 

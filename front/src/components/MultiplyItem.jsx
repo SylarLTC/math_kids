@@ -56,6 +56,7 @@ export const MultiplyItem = ({ item, totalCorrects, setTotalCorrects }) => {
             className="border mr-2 p-2"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
+            disabled={!equalityNumbers ? false : true}
           />
           <button disabled={equalityNumbers} className="border p-2 rounded">
             Check the answer

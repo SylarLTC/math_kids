@@ -9,7 +9,6 @@ import {
   totalAmountOfMultiplyElements,
   totalAmountOfDivisionElements,
 } from "../db/db";
-import { Header } from "../components/Header";
 import { useTotalCorrectsContext } from "../hooks/useTotalCorrects";
 
 export const Home = () => {
@@ -67,9 +66,7 @@ export const Home = () => {
   ];
 
   return (
-    <div className="flex flex-col p-3">
-      <Header />
-
+    <div className="flex flex-col">
       <Accordion items={items} />
     </div>
   );

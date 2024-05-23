@@ -46,7 +46,7 @@ export const Header = () => {
   };
 
   return (
-    <>
+    <div className="p-3">
       <nav className="flex flex-wrap justify-around items-center gap-3">
         {!currentUser ? null : (
           <div className="flex flex-wrap gap-4 items-center">
@@ -94,6 +94,6 @@ export const Header = () => {
           )}
         </div>
       </nav>
-    </>
+    </div>
   );
 };

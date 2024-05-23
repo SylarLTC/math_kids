@@ -35,11 +35,6 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
       setEqualityNumbers,
       setCheckColorClass
     );
-
-    console.log("answer:", answer);
-    console.log("checkAnswer:", checkAnswer.toString());
-    console.log(answer === checkAnswer.toString());
-    console.log("equalityNumbers:", equalityNumbers);
   };
 
   return (
@@ -58,6 +53,7 @@ export const SumItem = ({ item, totalCorrects, setTotalCorrects }) => {
             className="border mr-2 p-2"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
+            disabled={!equalityNumbers ? false : true}
           />
           <button disabled={equalityNumbers} className="border p-2 rounded">
             Check the answer
